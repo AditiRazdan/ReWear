@@ -40,5 +40,4 @@ This project demonstrates how targeted software solutions can meaningfully suppo
 https://aditirazdan.github.io/ReWear/
 
 ## Notes
-- Admin access is private
-- The live site can take ~30 seconds to wake on first load.
+- Admin access is private 
