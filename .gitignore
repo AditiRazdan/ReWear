@@ -1,0 +1,8 @@
+bin/
+obj/
+uploads/
+not10.10/
+rewear.db
+.DS_Store
+wwwroot/.DS_Store
+wwwroot/images/.DS_Store
