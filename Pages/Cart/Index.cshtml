@@ -1,18 +1,18 @@
 @page
 @model LocalBakery.Pages.Cart.IndexModel
 @{
-  ViewData["Title"] = "Your Reservations";
+  ViewData["Title"] = "Your Cart";
 }
 
 <section style="display:grid; gap:20px;">
   <header class="page-header">
-    <h1 style="margin:0;">Your Reservations</h1>
-    <p class="muted" style="margin:0;">Review items before confirming pickup.</p>
+    <h1 style="margin:0;">Your Cart</h1>
+    <p class="muted" style="margin:0;">Review items before placing your order.</p>
   </header>
 
   @if (!Model.Items.Any())
   {
-    <p class="muted" style="margin:0;">Your reservations are empty.</p>
+    <p class="muted" style="margin:0;">Your cart is empty.</p>
     <a class="button primary" href="/Listings">Browse Listings</a>
   }
   else
@@ -46,11 +46,11 @@
 
     <div class="inline-actions cart-summary">
       <form method="post" asp-page-handler="Clear">
-        <button type="submit">Clear Reservations</button>
+        <button type="submit">Clear Cart</button>
       </form>
       <div class="cart-total">
         <strong>Total: @Model.Total.ToString("C")</strong>
-        <a class="button primary" href="/Checkout">Confirm Pickup</a>
+        <a class="button primary" href="/Checkout">Proceed to Checkout</a>
       </div>
     </div>
   }

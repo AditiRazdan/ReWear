@@ -1,0 +1,29 @@
+@page
+@model LocalBakery.Pages.Admin.RegisterModel
+@{
+  ViewData["Title"] = "Create Admin";
+}
+
+<section style="display:grid; gap:20px; max-width:480px; margin:0 auto;">
+  <header class="page-header">
+    <h1 style="margin:0;">Create Admin</h1>
+    <p class="muted" style="margin:0;">Set up an admin account to manage listings.</p>
+  </header>
+
+  <form method="post" class="form-card">
+    <div asp-validation-summary="All" class="muted" style="font-size:13px;"></div>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Username</span>
+      <input asp-for="UserName" autocomplete="username" />
+    </label>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Password</span>
+      <input asp-for="Password" type="password" autocomplete="new-password" />
+    </label>
+    <button class="primary" type="submit">Create admin</button>
+  </form>
+</section>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

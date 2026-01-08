@@ -1,18 +1,18 @@
 @page
 @model LocalBakery.Pages.Account.OrdersModel
 @{
-  ViewData["Title"] = "Your Reservations";
+  ViewData["Title"] = "Your Orders";
 }
 
 <section style="display:grid; gap:20px;">
   <header class="page-header">
-    <h1 style="margin:0;">Your Reservations</h1>
-    <p class="muted" style="margin:0;">Recent reservations and pickup windows.</p>
+    <h1 style="margin:0;">Your Orders</h1>
+    <p class="muted" style="margin:0;">Recent orders and pickup windows.</p>
   </header>
 
   @if (!Model.Orders.Any())
   {
-    <p class="muted" style="margin:0;">No reservations yet.</p>
+    <p class="muted" style="margin:0;">No orders yet.</p>
     <a class="button primary" href="/Listings">Browse Listings</a>
   }
   else
@@ -20,7 +20,7 @@
     <table class="responsive-table">
       <thead>
         <tr>
-          <th>Reservation</th>
+          <th>Order</th>
           <th>Placed</th>
           <th>Pickup Window</th>
           <th>Items</th>
@@ -32,7 +32,7 @@
         @foreach (var order in Model.Orders)
         {
           <tr>
-            <td data-label="Reservation">@order.OrderNumber</td>
+            <td data-label="Order">@order.OrderNumber</td>
             <td data-label="Placed">@TimeHelper.ToSgt(order.CreatedAtUtc).ToString("MMM d, h:mm tt")</td>
             <td data-label="Pickup Window">@TimeHelper.ToSgt(order.PickupTimeUtc).ToString("MMM d, h:mm tt")</td>
             <td data-label="Items">

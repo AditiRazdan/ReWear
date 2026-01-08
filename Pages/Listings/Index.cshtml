@@ -8,7 +8,7 @@
   <header class="page-header">
     <div class="pill">New arrivals</div>
     <h1 style="margin:0;">Listings</h1>
-    <p class="muted" style="margin:0;">Browse limited-stock items and reserve for local pickup.</p>
+    <p class="muted" style="margin:0;">Browse limited-stock items and order for local pickup.</p>
     <div class="muted" style="font-size:13px;">Hours: @Model.HoursLabel</div>
     <div class="muted" style="font-size:13px;">Local pickup windows start at 8:00 AM.</div>
   </header>
@@ -56,7 +56,7 @@
           <div class="muted" style="font-size:12px;">
             @if (item.DailyStock <= 0)
             {
-              <span>In stock: Flexible</span>
+              <span>In stock: Available</span>
             }
             else
             {
@@ -85,7 +85,7 @@
                   <input class="qty-input" type="number" name="quantity" value="1" min="1" style="width:72px;" />
                 }
                 <button type="button" class="qty-btn" data-qty-step="1">+</button>
-                <button type="submit" class="primary">Reserve item</button>
+                <button type="submit" class="primary">Add to cart</button>
               </div>
             </form>
           }

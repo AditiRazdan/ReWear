@@ -1,18 +1,18 @@
 @page
 @model LocalBakery.Pages.Checkout.IndexModel
 @{
-  ViewData["Title"] = "Confirm Pickup";
+  ViewData["Title"] = "Confirm Order";
 }
 
 <section style="display:grid; gap:20px;">
   <header class="page-header">
-    <h1 style="margin:0;">Confirm Pickup</h1>
-    <p class="muted" style="margin:0;">Confirm your reservation and pickup window.</p>
+    <h1 style="margin:0;">Confirm Order</h1>
+    <p class="muted" style="margin:0;">Confirm your order and pickup window.</p>
   </header>
 
   @if (!Model.Items.Any())
   {
-    <p class="muted" style="margin:0;">Your reservations are empty.</p>
+    <p class="muted" style="margin:0;">Your cart is empty.</p>
     <a class="button primary" href="/Listings">Browse Listings</a>
   }
   else
@@ -36,8 +36,8 @@
 
     <form method="post" class="inline-actions checkout-actions">
       <div asp-validation-summary="All" class="muted" style="font-size:13px;"></div>
-      <button class="primary" type="submit">Confirm Reservation</button>
-      <a class="button" href="/Cart">Back to Reservations</a>
+      <button class="primary" type="submit">Place Order</button>
+      <a class="button" href="/Cart">Back to Cart</a>
     </form>
   }
 </section>

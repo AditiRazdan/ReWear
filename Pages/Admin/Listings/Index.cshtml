@@ -8,12 +8,12 @@
   <header class="section-header">
     <div>
       <h1 style="margin:0;">Listings Admin</h1>
-      <p class="muted" style="margin:4px 0 0;">Manage current listings and availability.</p>
+      <p class="muted" style="margin:4px 0 0;">Manage listings, pricing, and availability.</p>
     </div>
     <div class="inline-actions">
       <a class="button primary" href="/Admin/Listings/Create">Add Listing</a>
       <form method="post" asp-page-handler="RefreshInventory" style="display:inline;">
-        <button type="submit">Refresh Inventory</button>
+        <button type="submit">Reset Daily Stock</button>
       </form>
       <a class="button" href="/Admin/Dashboard">View Dashboard</a>
     </div>

@@ -561,25 +561,25 @@
       <span>ReWear</span>
     </div>
     <div class="links">
-      <a href="/">Home</a>
-      <a href="/Listings">Listings</a>
+      <a asp-page="/Index">Home</a>
+      <a asp-page="/Listings/Index">Listings</a>
       @if (!User.IsInRole("Admin"))
       {
-        <a href="/Cart">Reservations (@Cart.GetItemCount())</a>
+        <a asp-page="/Cart/Index">Cart (@Cart.GetItemCount())</a>
       }
       @if (User.Identity?.IsAuthenticated == true)
       {
         if (User.IsInRole("Admin"))
         {
-          <a href="/Admin/Listings">Manage Listings</a>
-          <a href="/Admin/Dashboard">Dashboard</a>
+          <a asp-page="/Admin/Listings/Index">Manage Listings</a>
+          <a asp-page="/Admin/Dashboard">Dashboard</a>
           <form method="post" asp-page="/Admin/Logout" style="display:inline;">
             <button type="submit">Log out</button>
           </form>
         }
         else
         {
-          <a href="/Account/Orders">My Reservations</a>
+          <a asp-page="/Account/Orders">My Orders</a>
           <form method="post" asp-page="/Account/Logout" style="display:inline;">
             <button type="submit">Log out</button>
           </form>
@@ -587,9 +587,9 @@
       }
       else
       {
-        <a href="/Account/Login">Log in</a>
-        <a href="/Account/Register">Create Account</a>
-        <a href="/Admin/Login">Admin Login</a>
+        <a asp-page="/Account/Login">Log in</a>
+        <a asp-page="/Account/Register">Create Account</a>
+        <a asp-page="/Admin/Login">Admin Login</a>
       }
     </div>
   </nav>

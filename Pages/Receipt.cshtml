@@ -1,26 +1,26 @@
 @page
 @model LocalBakery.Pages.ReceiptModel
 @{
-  ViewData["Title"] = "Reservation";
+  ViewData["Title"] = "Order";
 }
 
 <section style="display:grid; gap:20px; max-width:640px; margin:0 auto;">
   <header class="page-header" style="text-align:center;">
     <img src="~/images/ReWearLogo.png" alt="ReWear logo" style="width:140px; height:auto; margin:0 auto;" />
-    <h1 style="margin:8px 0 0;">Reservation</h1>
-    <p class="muted" style="margin:0;">Reservation @Model.OrderNumber</p>
+    <h1 style="margin:8px 0 0;">Order</h1>
+    <p class="muted" style="margin:0;">Order #@Model.OrderNumber</p>
   </header>
 
   @if (Model.Order == null)
   {
-    <p class="muted" style="margin:0; text-align:center;">Reservation not found.</p>
+    <p class="muted" style="margin:0; text-align:center;">Order not found.</p>
     <a class="button primary" href="/Listings">Back to Listings</a>
   }
   else
   {
     <div class="form-card" style="display:grid; gap:12px;">
       <div style="display:flex; justify-content:space-between;">
-        <span class="muted">Reserved</span>
+        <span class="muted">Placed</span>
         <span>@TimeHelper.ToSgt(Model.Order.CreatedAtUtc).ToString("MMM d, h:mm tt")</span>
       </div>
       <div style="display:flex; justify-content:space-between;">
@@ -30,7 +30,7 @@
       @if (!string.IsNullOrWhiteSpace(Model.Order.SellerNote))
       {
         <div style="display:grid; gap:6px;">
-          <span class="muted">Seller note</span>
+          <span class="muted">Seller message</span>
           <span>@Model.Order.SellerNote</span>
         </div>
       }

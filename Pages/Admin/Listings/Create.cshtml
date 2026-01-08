@@ -7,7 +7,7 @@
 <section style="display:grid; gap:20px;">
   <header class="page-header">
     <h1 style="margin:0;">Add Listing</h1>
-    <p class="muted" style="margin:0;">Create a new listing for today’s drop.</p>
+    <p class="muted" style="margin:0;">Create a new listing for the latest drop.</p>
   </header>
 
   <form method="post" asp-page="/Admin/Listings/Create" class="form-card" enctype="multipart/form-data">
@@ -39,16 +39,16 @@
     <div class="form-grid">
       <label style="display:grid; gap:6px;">
         <span class="muted" style="font-size:13px;">Tags (comma-separated)</span>
-        <input asp-for="Item.TagsCsv" placeholder="Gluten-free, Vegan, Bestseller" />
+        <input asp-for="Item.TagsCsv" placeholder="Vintage, Denim, Like-new" />
         <span asp-validation-for="Item.TagsCsv" class="muted" style="font-size:12px;"></span>
       </label>
       <label style="display:grid; gap:6px;">
-        <span class="muted" style="font-size:13px;">Daily stock (0 = unlimited)</span>
+        <span class="muted" style="font-size:13px;">Quantity available (0 = unlimited)</span>
         <input asp-for="Item.DailyStock" type="number" min="0" step="1" />
         <span asp-validation-for="Item.DailyStock" class="muted" style="font-size:12px;"></span>
       </label>
       <label style="display:grid; gap:6px;">
-        <span class="muted" style="font-size:13px;">Allergens</span>
+        <span class="muted" style="font-size:13px;">Condition notes</span>
         <input asp-for="Item.Allergens" />
         <span asp-validation-for="Item.Allergens" class="muted" style="font-size:12px;"></span>
       </label>

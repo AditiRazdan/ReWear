@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+var isEfDesignTime = Environment.CommandLine.Contains("ef.dll", StringComparison.OrdinalIgnoreCase);
 
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
@@ -20,8 +21,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Account/Logout");
 });
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=rewear.db")
-        .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
+    options.UseSqlite("Data Source=rewear.db"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddSingleton<ImageStorage>();
@@ -69,12 +69,13 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapGet("/health", () => Results.Ok("ok"));
 
-using (var scope = app.Services.CreateScope())
+app.MapRazorPages();
+
+if (!isEfDesignTime)
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<LocalBakery.Data.AppDbContext>();
     var users = scope.ServiceProvider.GetRequiredService<UserService>();
 
@@ -187,7 +188,7 @@ using (var scope = app.Services.CreateScope())
             Price = 14.00m,
             Category = "Tops",
             TagsCsv = "Ribbed, Y2K, Classic",
-            ImagePath = "/images/y2k-black-ribbed-top.png",
+            ImagePath = "/images/set-01-y2k-top.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -198,7 +199,7 @@ using (var scope = app.Services.CreateScope())
             Price = 14.00m,
             Category = "Tops",
             TagsCsv = "Soft, Y2K, Neutral",
-            ImagePath = "/images/y2k-ivory-vneck-top.png",
+            ImagePath = "/images/set-02-y2k-top.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -209,7 +210,7 @@ using (var scope = app.Services.CreateScope())
             Price = 15.00m,
             Category = "Tops",
             TagsCsv = "Blush, Wrap, Ribbed",
-            ImagePath = "/images/blush-tie-front-top.png",
+            ImagePath = "/images/set-03-blush-top.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -220,7 +221,7 @@ using (var scope = app.Services.CreateScope())
             Price = 16.00m,
             Category = "Tops",
             TagsCsv = "Wrap, Y2K, Evening",
-            ImagePath = "/images/y2k-black-wrap-top.png",
+            ImagePath = "/images/set-04-y2k-wrap-top.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -231,7 +232,7 @@ using (var scope = app.Services.CreateScope())
             Price = 18.00m,
             Category = "Bottoms",
             TagsCsv = "Denim, Statement, Vintage",
-            ImagePath = "/images/union-jack-denim-shorts.png",
+            ImagePath = "/images/set-05-denim-shorts.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -242,7 +243,7 @@ using (var scope = app.Services.CreateScope())
             Price = 20.00m,
             Category = "Bottoms",
             TagsCsv = "Denim, Skinny, Distressed",
-            ImagePath = "/images/dark-wash-skinny-jeans.png",
+            ImagePath = "/images/set-06-skinny-jeans.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -253,7 +254,7 @@ using (var scope = app.Services.CreateScope())
             Price = 19.00m,
             Category = "Bottoms",
             TagsCsv = "Denim, Classic, Everyday",
-            ImagePath = "/images/mid-wash-jeans.png",
+            ImagePath = "/images/set-07-midwash-jeans.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -264,7 +265,7 @@ using (var scope = app.Services.CreateScope())
             Price = 10.00m,
             Category = "Tops",
             TagsCsv = "Graphic, Cotton, Casual",
-            ImagePath = "/images/navy-usa-graphic-tee.png",
+            ImagePath = "/images/set-08-graphic-tee.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -275,7 +276,7 @@ using (var scope = app.Services.CreateScope())
             Price = 8.00m,
             Category = "Tops",
             TagsCsv = "Ribbed, Neutral, Layering",
-            ImagePath = "/images/mocha-ribbed-tank.png",
+            ImagePath = "/images/set-09-ribbed-tank.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -286,7 +287,7 @@ using (var scope = app.Services.CreateScope())
             Price = 16.00m,
             Category = "Loungewear",
             TagsCsv = "Cozy, Neutral, Everyday",
-            ImagePath = "/images/oatmeal-joggers.png",
+            ImagePath = "/images/set-10-joggers.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -297,7 +298,7 @@ using (var scope = app.Services.CreateScope())
             Price = 12.00m,
             Category = "Activewear",
             TagsCsv = "Tie-dye, Stretch, Active",
-            ImagePath = "/images/midnight-tie-dye-bra.png",
+            ImagePath = "/images/set-11-sports-top.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -308,7 +309,7 @@ using (var scope = app.Services.CreateScope())
             Price = 15.00m,
             Category = "Activewear",
             TagsCsv = "Sage, Stretch, Comfort",
-            ImagePath = "/images/sage-high-waist-leggings.png",
+            ImagePath = "/images/set-12-leggings.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         },
@@ -319,7 +320,7 @@ using (var scope = app.Services.CreateScope())
             Price = 9.00m,
             Category = "Loungewear",
             TagsCsv = "Ribbed, Lounge, Green",
-            ImagePath = "/images/emerald-ribbed-shorts.png",
+            ImagePath = "/images/set-13-lounge-shorts.png",
             DailyStock = 1,
             DailyStockRemaining = 1
         }
@@ -338,4 +339,7 @@ using (var scope = app.Services.CreateScope())
     db.SaveChanges();
 }
 
-app.Run();
+if (!isEfDesignTime)
+{
+    app.Run();
+}

@@ -30,9 +30,11 @@ public class DashboardModel : PageModel
             .Where(o => o.CreatedAtUtc >= today && o.CreatedAtUtc < tomorrow)
             .CountAsync();
 
-        RevenueToday = await _db.OrderItems
+        var revenueItems = await _db.OrderItems
             .Where(oi => oi.Order.CreatedAtUtc >= today && oi.Order.CreatedAtUtc < tomorrow)
-            .SumAsync(oi => oi.UnitPrice * oi.Quantity);
+            .Select(oi => new { oi.UnitPrice, oi.Quantity })
+            .ToListAsync();
+        RevenueToday = revenueItems.Sum(oi => oi.UnitPrice * oi.Quantity);
 
         TopItemsToday = await _db.OrderItems
             .Where(oi => oi.Order.CreatedAtUtc >= today && oi.Order.CreatedAtUtc < tomorrow)
@@ -44,9 +46,13 @@ public class DashboardModel : PageModel
             .ToListAsync();
 
         var windowStart = TimeHelper.ToUtc(sgtStart.AddDays(-30));
-        var salesLast30Days = await _db.OrderItems
+        var salesItems = await _db.OrderItems
             .Where(oi => oi.Order.CreatedAtUtc >= windowStart)
-            .GroupBy(oi => new { oi.MenuItemId, oi.MenuItem.Name })
+            .Select(oi => new { oi.MenuItemId, oi.MenuItem.Name, oi.Quantity, oi.UnitPrice })
+            .ToListAsync();
+
+        var salesLast30Days = salesItems
+            .GroupBy(oi => new { oi.MenuItemId, oi.Name })
             .Select(g => new
             {
                 g.Key.MenuItemId,
@@ -55,7 +61,7 @@ public class DashboardModel : PageModel
                 Revenue = g.Sum(x => x.UnitPrice * x.Quantity)
             })
             .OrderByDescending(x => x.Quantity)
-            .ToListAsync();
+            .ToList();
 
         TopItemsLast30Days = salesLast30Days
             .Take(5)

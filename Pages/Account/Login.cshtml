@@ -1,0 +1,34 @@
+@page
+@model LocalBakery.Pages.Account.LoginModel
+@{
+  ViewData["Title"] = "Log In";
+}
+
+<section style="display:grid; gap:20px; max-width:480px; margin:0 auto;">
+  <header class="page-header">
+    <h1 style="margin:0;">Log In</h1>
+    <p class="muted" style="margin:0;">Access your orders and receipts.</p>
+  </header>
+
+  <form method="post" class="form-card">
+    <div asp-validation-summary="All" class="muted" style="font-size:13px;"></div>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Username</span>
+      <input asp-for="UserName" autocomplete="username" />
+    </label>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Password</span>
+      <input asp-for="Password" type="password" autocomplete="current-password" />
+    </label>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <button class="primary" type="submit">Log in</button>
+  </form>
+
+  <div class="muted" style="font-size:13px;">
+    No account yet? <a href="/Account/Register">Create one</a>.
+  </div>
+</section>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
