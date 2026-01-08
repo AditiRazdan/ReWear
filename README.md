@@ -36,7 +36,7 @@ This project demonstrates how targeted software solutions can meaningfully suppo
 - SQLite storage + session-based cart
 
 ## Live site
-https://aditirazdan.github.io/ReWear/
+[https://rewear-r2y2.onrender.com ](url)
 
 ## Notes
 - Admin access is private 
