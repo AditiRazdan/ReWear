@@ -1,0 +1,57 @@
+@page
+@model LocalBakery.Pages.Account.ReceiptModel
+@{
+  ViewData["Title"] = "Reservation";
+}
+
+<section style="display:grid; gap:20px; max-width:640px; margin:0 auto;">
+  <header class="page-header" style="text-align:center;">
+    <img src="~/images/ReWearLogo.png" alt="ReWear logo" style="width:140px; height:auto; margin:0 auto;" />
+    <h1 style="margin:8px 0 0;">Reservation</h1>
+    <p class="muted" style="margin:0;">Reservation @Model.OrderNumber</p>
+  </header>
+
+  @if (Model.Order == null)
+  {
+    <p class="muted" style="margin:0; text-align:center;">Reservation not found.</p>
+    <a class="button primary" href="/Account/Orders">Back to Reservations</a>
+  }
+  else
+  {
+    <div class="form-card" style="display:grid; gap:12px;">
+      <div style="display:flex; justify-content:space-between;">
+        <span class="muted">Reserved</span>
+        <span>@TimeHelper.ToSgt(Model.Order.CreatedAtUtc).ToString("MMM d, h:mm tt")</span>
+      </div>
+      <div style="display:flex; justify-content:space-between;">
+        <span class="muted">Pickup Window</span>
+        <span>@TimeHelper.ToSgt(Model.Order.PickupTimeUtc).ToString("MMM d, h:mm tt")</span>
+      </div>
+      @if (!string.IsNullOrWhiteSpace(Model.Order.SellerNote))
+      {
+        <div style="display:grid; gap:6px;">
+          <span class="muted">Seller note</span>
+          <span>@Model.Order.SellerNote</span>
+        </div>
+      }
+      <div style="display:grid; gap:8px;">
+        @foreach (var item in Model.Order.Items)
+        {
+          <div style="display:flex; justify-content:space-between;">
+            <span>@item.Quantity x @item.Name</span>
+            <span>@((item.UnitPrice * item.Quantity).ToString("C"))</span>
+          </div>
+        }
+      </div>
+      <div style="display:flex; justify-content:space-between; font-weight:600;">
+        <span>Total</span>
+        <span>@Model.Order.Total.ToString("C")</span>
+      </div>
+    </div>
+
+    <div class="inline-actions" style="justify-content:center;">
+      <button type="button" onclick="window.print()">Print Details</button>
+      <a class="button primary" href="/Account/Orders">Back to Reservations</a>
+    </div>
+  }
+</section>

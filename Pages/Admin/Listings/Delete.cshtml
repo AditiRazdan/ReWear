@@ -1,0 +1,27 @@
+@page
+@model LocalBakery.Pages.Admin.Listings.DeleteModel
+@{
+  ViewData["Title"] = "Delete Listing";
+}
+
+<section style="display:grid; gap:20px;">
+  <header class="page-header">
+    <h1 style="margin:0;">Delete Item</h1>
+    <p class="muted" style="margin:0;">This action cannot be undone.</p>
+  </header>
+
+  <div class="form-card">
+    <div style="display:grid; gap:6px;">
+      <strong>@Model.Item.Name</strong>
+      <span class="muted">@Model.Item.Category</span>
+      <span>@Model.Item.Price.ToString("C")</span>
+      <p class="muted" style="margin:0;">@Model.Item.Description</p>
+    </div>
+
+    <form method="post" class="inline-actions">
+      <input type="hidden" asp-for="Item.Id" />
+      <button class="primary" type="submit">Confirm Delete</button>
+      <a class="button" href="/Admin/Listings">Cancel</a>
+    </form>
+  </div>
+</section>

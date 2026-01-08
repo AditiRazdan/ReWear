@@ -1,0 +1,55 @@
+@page
+@model LocalBakery.Pages.Account.OrdersModel
+@{
+  ViewData["Title"] = "Your Reservations";
+}
+
+<section style="display:grid; gap:20px;">
+  <header class="page-header">
+    <h1 style="margin:0;">Your Reservations</h1>
+    <p class="muted" style="margin:0;">Recent reservations and pickup windows.</p>
+  </header>
+
+  @if (!Model.Orders.Any())
+  {
+    <p class="muted" style="margin:0;">No reservations yet.</p>
+    <a class="button primary" href="/Listings">Browse Listings</a>
+  }
+  else
+  {
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Reservation</th>
+          <th>Placed</th>
+          <th>Pickup Window</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var order in Model.Orders)
+        {
+          <tr>
+            <td data-label="Reservation">@order.OrderNumber</td>
+            <td data-label="Placed">@TimeHelper.ToSgt(order.CreatedAtUtc).ToString("MMM d, h:mm tt")</td>
+            <td data-label="Pickup Window">@TimeHelper.ToSgt(order.PickupTimeUtc).ToString("MMM d, h:mm tt")</td>
+            <td data-label="Items">
+              <div style="display:grid; gap:4px;">
+                @foreach (var item in order.Items)
+                {
+                  <span>@item.Quantity x @item.Name</span>
+                }
+              </div>
+            </td>
+            <td data-label="Total">@order.Total.ToString("C")</td>
+            <td class="actions-cell" data-label="Actions">
+              <a class="button" href="/Account/Receipt?order=@order.OrderNumber">Details</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

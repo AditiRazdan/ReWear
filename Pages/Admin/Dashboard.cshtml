@@ -1,0 +1,165 @@
+@page
+@model LocalBakery.Pages.Admin.DashboardModel
+@{
+  ViewData["Title"] = "Dashboard";
+}
+
+<section style="display:grid; gap:24px;">
+  <header class="section-header">
+    <div>
+      <h1 style="margin:0;">Dashboard</h1>
+      <p style="margin:6px 0 0; opacity:0.7;">Today’s performance snapshot.</p>
+    </div>
+    <form method="post" asp-page-handler="ClearRecentOrders">
+      <button type="submit">Clear Recent Reservations</button>
+    </form>
+  </header>
+
+  <div style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+      <div style="font-size:13px; opacity:0.6;">Reservations Today</div>
+      <div style="font-size:28px; font-weight:700;">@Model.TotalOrdersToday</div>
+    </div>
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+      <div style="font-size:13px; opacity:0.6;">Revenue Today</div>
+      <div style="font-size:28px; font-weight:700;">@Model.RevenueToday.ToString("C")</div>
+    </div>
+  </div>
+
+  <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+    <h2 style="margin:0 0 12px;">Top Items</h2>
+    @if (!Model.TopItemsToday.Any())
+    {
+      <p style="margin:0; opacity:0.7;">No reservations yet today.</p>
+    }
+    else
+    {
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model.TopItemsToday)
+          {
+            <tr>
+              <td data-label="Item">@item.Name</td>
+              <td data-label="Qty">@item.Qty</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <div style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+      <h2 style="margin:0 0 12px;">Top Items (30 days)</h2>
+      @if (!Model.TopItemsLast30Days.Any())
+      {
+        <p style="margin:0; opacity:0.7;">No sales in the last 30 days.</p>
+      }
+      else
+      {
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var item in Model.TopItemsLast30Days)
+            {
+              <tr>
+                <td data-label="Item">@item.Name</td>
+                <td data-label="Qty">@item.Quantity</td>
+                <td data-label="Revenue">@item.Revenue.ToString("C")</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+      <h2 style="margin:0 0 12px;">Not Selling (30 days)</h2>
+      @if (!Model.NotSellingLast30Days.Any())
+      {
+        <p style="margin:0; opacity:0.7;">Everything has sold recently.</p>
+      }
+      else
+      {
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var item in Model.NotSellingLast30Days)
+            {
+              <tr>
+                <td data-label="Item">@item.Name</td>
+                <td data-label="Qty">@item.Quantity</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+
+  <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:16px;">
+    <h2 style="margin:0 0 12px;">Recent Reservations</h2>
+    @if (!Model.RecentOrders.Any())
+    {
+      <p style="margin:0; opacity:0.7;">No reservations yet.</p>
+    }
+    else
+    {
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>Reservation</th>
+            <th>Placed</th>
+            <th>Pickup Window</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Seller Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var order in Model.RecentOrders)
+          {
+            <tr>
+              <td data-label="Reservation">@order.OrderNumber</td>
+              <td data-label="Placed">@TimeHelper.ToSgt(order.CreatedAtUtc).ToString("MMM d, h:mm tt")</td>
+              <td data-label="Pickup Window">@TimeHelper.ToSgt(order.PickupTimeUtc).ToString("MMM d, h:mm tt")</td>
+              <td data-label="Items">
+                <div style="display:grid; gap:4px;">
+                  @foreach (var item in order.Items)
+                  {
+                    <span>@item.Quantity x @item.Name</span>
+                  }
+                </div>
+              </td>
+              <td data-label="Total">@order.Total.ToString("C")</td>
+              <td data-label="Seller Note">
+                <form method="post" asp-page-handler="UpdateSellerNote" style="display:grid; gap:8px;">
+                  <input type="hidden" name="orderNumber" value="@order.OrderNumber" />
+                  <input type="text" name="sellerNote" value="@order.SellerNote" placeholder="Pickup note or message" />
+                  <button type="submit">Save</button>
+                </form>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>

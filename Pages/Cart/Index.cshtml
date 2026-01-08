@@ -1,0 +1,57 @@
+@page
+@model LocalBakery.Pages.Cart.IndexModel
+@{
+  ViewData["Title"] = "Your Reservations";
+}
+
+<section style="display:grid; gap:20px;">
+  <header class="page-header">
+    <h1 style="margin:0;">Your Reservations</h1>
+    <p class="muted" style="margin:0;">Review items before confirming pickup.</p>
+  </header>
+
+  @if (!Model.Items.Any())
+  {
+    <p class="muted" style="margin:0;">Your reservations are empty.</p>
+    <a class="button primary" href="/Listings">Browse Listings</a>
+  }
+  else
+  {
+    <div class="form-card" style="display:grid; gap:16px;">
+      @foreach (var item in Model.Items)
+      {
+        <div class="cart-item">
+          @if (!string.IsNullOrWhiteSpace(item.ImagePath))
+          {
+            <img src="@item.ImagePath" alt="" style="width:64px; height:64px; border-radius:12px; object-fit:cover;" />
+          }
+          <div>
+            <div style="font-weight:600;">@item.Name</div>
+            <div class="muted" style="font-size:13px;">@item.Price.ToString("C")</div>
+          </div>
+          <div class="cart-item-actions">
+            <form method="post" asp-page-handler="Update" class="inline-actions cart-update">
+              <input type="hidden" name="id" value="@item.MenuItemId" />
+              <input type="number" name="quantity" min="1" value="@item.Quantity" style="width:72px;" />
+              <button type="submit">Update</button>
+            </form>
+            <form method="post" asp-page-handler="Remove">
+              <input type="hidden" name="id" value="@item.MenuItemId" />
+              <button type="submit">Remove</button>
+            </form>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="inline-actions cart-summary">
+      <form method="post" asp-page-handler="Clear">
+        <button type="submit">Clear Reservations</button>
+      </form>
+      <div class="cart-total">
+        <strong>Total: @Model.Total.ToString("C")</strong>
+        <a class="button primary" href="/Checkout">Confirm Pickup</a>
+      </div>
+    </div>
+  }
+</section>

@@ -1,0 +1,96 @@
+@page
+@model LocalBakery.Pages.Listings.IndexModel
+@{
+  ViewData["Title"] = "Listings";
+}
+
+<section style="display:grid; gap:24px;">
+  <header class="page-header">
+    <div class="pill">New arrivals</div>
+    <h1 style="margin:0;">Listings</h1>
+    <p class="muted" style="margin:0;">Browse limited-stock items and reserve for local pickup.</p>
+    <div class="muted" style="font-size:13px;">Hours: @Model.HoursLabel</div>
+    <div class="muted" style="font-size:13px;">Local pickup windows start at 8:00 AM.</div>
+  </header>
+
+  <form method="get" class="form-card">
+    <div class="form-grid">
+      <label style="display:grid; gap:6px;">
+        <span style="font-size:13px;" class="muted">Search</span>
+        <input name="q" value="@Model.Q" placeholder="Denim jacket, cotton tee, wool scarf" />
+      </label>
+      <label style="display:grid; gap:6px;">
+        <span style="font-size:13px;" class="muted">Category</span>
+        <input name="category" value="@Model.Category" placeholder="Tops, Outerwear, Bottoms" />
+      </label>
+      <label style="display:grid; gap:6px;">
+        <span style="font-size:13px;" class="muted">Tag</span>
+        <input name="tag" value="@Model.Tag" placeholder="Vintage, Like-new, Sustainable" />
+      </label>
+      <button class="primary" type="submit">Filter</button>
+    </div>
+  </form>
+
+  @if (!Model.Items.Any())
+  {
+    <p class="muted" style="margin:0;">No items match your filters.</p>
+  }
+  else
+  {
+    <div class="card-grid">
+      @foreach (var item in Model.Items)
+      {
+        <article class="card">
+          @{
+            var imagePath = string.IsNullOrWhiteSpace(item.ImagePath)
+              ? "/images/placeholder.svg"
+              : item.ImagePath;
+          }
+          <img src="@imagePath" alt="@item.Name" loading="lazy" />
+          <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline;">
+            <strong>@item.Name</strong>
+            <span style="font-weight:600;">@item.Price.ToString("C")</span>
+          </div>
+          <span class="muted" style="font-size:13px;">@item.Category</span>
+          <p style="margin:0; font-size:14px; opacity:0.85;">@item.Description</p>
+          <div class="muted" style="font-size:12px;">
+            @if (item.DailyStock <= 0)
+            {
+              <span>In stock: Flexible</span>
+            }
+            else
+            {
+              <span>In stock: @item.DailyStockRemaining left</span>
+            }
+          </div>
+          @if (!string.IsNullOrWhiteSpace(item.TagsCsv))
+          {
+            <div class="muted" style="font-size:12px;">@item.TagsCsv</div>
+          }
+          @if (!User.IsInRole("Admin"))
+          {
+            <form method="post" asp-page-handler="AddToCart">
+              <input type="hidden" name="id" value="@item.Id" />
+              <input type="hidden" name="q" value="@Model.Q" />
+              <input type="hidden" name="category" value="@Model.Category" />
+              <input type="hidden" name="tag" value="@Model.Tag" />
+              <div class="inline-actions qty-actions">
+                <button type="button" class="qty-btn" data-qty-step="-1">-</button>
+                @if (item.DailyStock > 0)
+                {
+                  <input class="qty-input" type="number" name="quantity" value="1" min="1" max="@item.DailyStockRemaining" style="width:72px;" />
+                }
+                else
+                {
+                  <input class="qty-input" type="number" name="quantity" value="1" min="1" style="width:72px;" />
+                }
+                <button type="button" class="qty-btn" data-qty-step="1">+</button>
+                <button type="submit" class="primary">Reserve item</button>
+              </div>
+            </form>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>

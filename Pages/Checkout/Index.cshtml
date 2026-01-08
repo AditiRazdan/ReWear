@@ -1,0 +1,43 @@
+@page
+@model LocalBakery.Pages.Checkout.IndexModel
+@{
+  ViewData["Title"] = "Confirm Pickup";
+}
+
+<section style="display:grid; gap:20px;">
+  <header class="page-header">
+    <h1 style="margin:0;">Confirm Pickup</h1>
+    <p class="muted" style="margin:0;">Confirm your reservation and pickup window.</p>
+  </header>
+
+  @if (!Model.Items.Any())
+  {
+    <p class="muted" style="margin:0;">Your reservations are empty.</p>
+    <a class="button primary" href="/Listings">Browse Listings</a>
+  }
+  else
+  {
+    <div class="form-card" style="display:grid; gap:14px;">
+      @foreach (var item in Model.Items)
+      {
+        <div style="display:flex; justify-content:space-between; gap:16px;">
+          <div>
+            <strong>@item.Name</strong>
+            <div class="muted" style="font-size:13px;">@item.Quantity x @item.Price.ToString("C")</div>
+          </div>
+          <div>@((item.Price * item.Quantity).ToString("C"))</div>
+        </div>
+      }
+      <div style="display:flex; justify-content:space-between; font-weight:600;">
+        <span>Total</span>
+        <span>@Model.Total.ToString("C")</span>
+      </div>
+    </div>
+
+    <form method="post" class="inline-actions checkout-actions">
+      <div asp-validation-summary="All" class="muted" style="font-size:13px;"></div>
+      <button class="primary" type="submit">Confirm Reservation</button>
+      <a class="button" href="/Cart">Back to Reservations</a>
+    </form>
+  }
+</section>

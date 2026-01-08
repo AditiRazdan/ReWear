@@ -1,0 +1,37 @@
+@page
+@model LocalBakery.Pages.Admin.LoginModel
+@{
+  ViewData["Title"] = "Admin Login";
+}
+
+<section style="display:grid; gap:20px; max-width:480px; margin:0 auto;">
+  <header class="page-header">
+    <h1 style="margin:0;">Admin Login</h1>
+    <p class="muted" style="margin:0;">Sign in to manage the listings.</p>
+  </header>
+
+  <form method="post" class="form-card">
+    <div asp-validation-summary="All" class="muted" style="font-size:13px;"></div>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Username</span>
+      <input asp-for="UserName" autocomplete="username" />
+    </label>
+    <label style="display:grid; gap:6px;">
+      <span class="muted" style="font-size:13px;">Password</span>
+      <input asp-for="Password" type="password" autocomplete="current-password" />
+    </label>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <button class="primary" type="submit">Log in</button>
+  </form>
+
+  @if (Model.CanRegister)
+  {
+    <div class="muted" style="font-size:13px;">
+      No admin users exist yet. <a href="/Admin/Register">Create the first account</a>.
+    </div>
+  }
+</section>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
