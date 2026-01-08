@@ -1,7 +1,15 @@
 # ReWear
+ReWear is a full-stack ASP.NET Core application created to support a local sustainable thrift business, helping a small business owner increase sales through better inventory and reservation management.
 
-ReWear is a lightweight ordering and inventory system built to support a small, sustainable thrift business.
-Designed for a single local seller, the platform enables limited-stock listings, customer reservations, local pickup coordination, and simple sales analytics — helping reduce textile waste while supporting a micro-entrepreneur.
+## Sustainability & Community Impact
+ReWear was built to directly support a local sustainable thrift business owner by improving how she manages inventory, reservations, and customer pickups.
+
+Before using this system, listings and reservations were handled manually, making it difficult to track demand and resulting in missed sales opportunities. By centralizing listings, enforcing limited inventory, and streamlining the reservation process, ReWear has helped the seller operate more efficiently and reach more customers, contributing to increased sales and more consistent turnover of secondhand items.
+
+From an environmental perspective, supporting the resale of clothing helps extend product lifecycles and reduces demand for new garment production, which is a major contributor to textile waste and carbon emissions. The platform’s emphasis on limited-stock listings and local pickup reinforces reuse-based consumption while minimizing packaging waste and transportation impact.
+
+This project demonstrates how targeted software solutions can meaningfully support small, sustainability-driven businesses while delivering tangible social and environmental benefits at a community scale.
+
 
 ## Features
 - Full customer reservation flow (listings -> reservations -> pickup confirmation -> details)
