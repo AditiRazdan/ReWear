@@ -36,7 +36,7 @@ This project demonstrates how targeted software solutions can meaningfully suppo
 - SQLite storage + session-based cart
 
 ## Live site
-[https://rewear-r2y2.onrender.com ](url)
+[[https://rewear-r2y2.onrender.com ](url)](https://rewear-r2y2.onrender.com/)
 
 ## Notes
 - Admin access is private 
